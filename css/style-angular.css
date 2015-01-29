@@ -1,0 +1,75 @@
+body{
+	/*background-image: url('../images/WaterSandBackground.jpg');
+	background-size: cover;*/
+	font-family: arial;
+}
+header{
+	text-align: center;
+}
+#container{
+	width: 320px;
+	height: 320px;
+	/*background-color: black;*/
+	overflow: none;
+	margin: 0 auto;
+}
+.square{
+	width:100px;
+	height: 100px;
+	/*background-image: url('../images/wood_grain3.jpg');
+	background-size: contain;*/
+	float: left; /*Don't delete this! Keeps the squares from moving around*/
+
+	border: 1px solid black;
+	color: purple;
+	text-align: center;
+	border-radius: 20%;
+
+}
+.gamePiece{
+	height:100px;
+	width:100px;
+	border:0px;
+}
+.xSelected{
+/*	background-image: url('../images/starfish1.png');
+	background-size: contain;
+*/}
+.oSelected{
+/*	background-image: url('../images/seashell1_edited.png');
+	background-size: contain;
+*/}
+#winnerIdentity{
+	color: white;
+	margin: 0px auto;
+	text-align: center;
+	z-index: 100;
+	position: relative;
+	top: 100px;
+	background-color: #E9A656;
+	width: 400px;
+}
+#winnerIdentityDiv{
+	height: 0px;
+}
+
+.currentTurn{
+	font-weight: bold;
+	color: #342A14;
+/*	background-image: url('../images/driftwood2.png');
+	background-size: 80px 20px;
+	background-repeat: no-repeat;*/
+}
+.notCurrentTurn{
+	color: lightgray;
+}
+
+/*Styling for image that shows play again button */
+#playAgainImage{
+	margin: 0 auto;
+	width: 200px;
+}
+.driftwood{
+	width: 80px;
+	height: 20px;
+}

@@ -1,0 +1,122 @@
+body {
+	background-image: url('../images/WaterSandBackground.jpg');
+	background-size: cover;
+	font-family: arial;
+}
+#container{
+	width:80%;
+	margin: 0 auto;
+}
+header{
+	text-align: center; 
+	color: #342A14;
+	font-size: 200%;
+}
+h1>img{
+	width: 100px;
+}
+/********************************************/
+/*  Styling for the text showing whose turn */
+/*  it is                                   */
+/********************************************/
+#playerTurn{
+	margin: 0 auto;
+}
+.currentTurn{
+	font-weight: bold;
+	color: #342A14;
+/*	background-image: url('../images/driftwood2.png');
+	background-size: 80px 20px;
+	background-repeat: no-repeat;*/
+}
+.notCurrentTurn{
+	color: lightgray;
+}
+.driftwood{
+	width: 80px;
+	height: 20px;
+}
+/*div.notCurrentTurn>img{
+	 visibility: hidden;
+}*/
+/********************************************/
+/*  Styling for game board and individual   */
+/*  squares                                 */
+/********************************************/
+#ticTacToeBoard{
+	height: 350px;
+	width: 350px;
+	position:relative;
+	margin: 0 auto;
+}
+#playerTurn{
+	width: 350px;
+	margin: 0 auto;
+}
+.square{
+	height: 100px;
+	width: 100px;
+	float: left;
+	margin: 5px;
+	border-radius: 5%;
+	border: 1px solid black;
+	background-image: url('../images/wood_grain3.jpg');
+	background-size: contain;
+}
+/*Applied on mouseout*/
+.blue{
+	/*background-color: blue;*/
+	opacity: 0.5;
+}
+/********************************************/
+/*Styling for margins of tic tac toe squares*/
+/********************************************/
+.left{
+	margin-left:0px;
+}
+.right{
+	margin-right:0px;
+}
+.top{
+	margin-top: 0px;
+}
+.bottom{
+	margin-bottom: 0px;
+}
+
+/********************************************/
+/*Styling for x or o class. Class depends on*/
+/*which player clicked the tic tac to square*/
+/********************************************/
+.gameBoardSquare{
+	width: 100%;
+}
+/*Styling for when a board piece is taken*/
+div.taken{
+	opacity: 1;
+}
+/*Styling for div that shows announcement of winner*/
+#winnerIdentity{
+	color: white;
+	margin: 0px auto;
+	text-align: center;
+	z-index: 100;
+	position: relative;
+	top: 100px;
+	background-color: #E9A656;
+	width: 400px;
+}
+#winnerIdentityDiv{
+	height: 0px;
+}
+
+/*Styling for div that contains 'Play again button'*/
+#playerTurn {
+	margin: 0 auto;
+}
+/*Styling for image that shows play again button */
+#playAgainImage{
+	margin: 0 auto;
+	display: none;
+	width: 200px;
+}
