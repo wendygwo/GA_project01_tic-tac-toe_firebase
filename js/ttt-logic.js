@@ -23,6 +23,26 @@ tttApp.controller('tttController', function($scope,$firebase){
 	var playerMovesSync = $firebase(playerMovesRef);
 	$scope.playerMoves = playerMovesSync.$asArray();
 
+	//Set up variable to hold true/false for if someone won
+	var someoneWonRef = new Firebase('https://wendytictactoe.firebaseio.com/someoneWon');
+	var someoneWonSync = $firebase(someoneWonRef);
+	$scope.someoneWon= someoneWonSync.$asArray();
+
+	//Will either create or initialize the someoneWon flag
+	$scope.someoneWon.$loaded(function(){
+		console.log('went into someoneWon initialization. Length is: ');
+		console.log($scope.someoneWon.length);
+		if ($scope.someoneWon.length==0){
+			$scope.someoneWon.$add({winnerFlag: false});
+			$scope.someoneWon.$add({winningPlayer: ''});
+		} else{
+			$scope.someoneWon[0].winnerFlag=false;
+			$scope.someoneWon[0].winningPlayer='';
+			$scope.someoneWon.$save(0);
+		}
+
+	});
+
 	//Will either create two playerMoves records if it doesn't exist in database
 	//If records do exist in Firebase, will reinitialize them
 	$scope.playerMoves.$loaded(function(){
@@ -91,7 +111,7 @@ tttApp.controller('tttController', function($scope,$firebase){
 				// console.log('Player x move record array is: '+$scope.playerMoves[0].moveRecord);
 
 				//saves the index of the x player's move to firebase
-				$scope.playerMoves[0].moveRecord.push(((idx+1).toString()));
+				$scope.playerMoves[0].moveRecord.push(((idx+1).toString()));//add 1 to idx, because my win logic assumes squares start at 1 rather than 0. Changed to string so that i could use indexOf to search for winning combinations 
 				$scope.playerMoves.$save(0);
 
 			} else {
@@ -100,7 +120,7 @@ tttApp.controller('tttController', function($scope,$firebase){
 
 				// console.log('Player o move record array is: '+$scope.playerMoves[1].moveRecord);
 				//saves the index of the x player's move to firebase
-				$scope.playerMoves[1].moveRecord.push(((idx+1).toString()));
+				$scope.playerMoves[1].moveRecord.push(((idx+1).toString())); //add 1 to idx, because my win logic assumes squares start at 1 rather than 0. Changed to string so that i could use indexOf to search for winning combinations
 				$scope.playerMoves.$save(1);
 			}
 
@@ -119,9 +139,13 @@ tttApp.controller('tttController', function($scope,$firebase){
 					for (var i = 0; i<$scope.winningCombinations.length;i++){
 						if(($scope.playerMoves[0].moveRecord.indexOf($scope.winningCombinations[i][0])!=-1)&&($scope.playerMoves[0].moveRecord.indexOf($scope.winningCombinations[i][1])!=-1)&&($scope.playerMoves[0].moveRecord.indexOf($scope.winningCombinations[i][2])!=-1)){
 							console.log('x wins');
-							$scope.someoneWon=true;
-							//***TO DO: WILL NEED TO PUT A $SAVE HERE TO PUSH someoneWon TO FIREBASE. DO THIS LATER**
-							$scope.winningPlayer='starfish';
+
+							//sets winner flag and winning player name to true and 'starfish' and saves to Firebase
+					//		$scope.someoneWon=true;
+			 				$scope.someoneWon[0].winnerFlag=true;
+					//		$scope.winningPlayer='starfish';
+							$scope.someoneWon[0].winningPlayer='starfish';
+						 	$scope.someoneWon.$save(0);
 						}
 
 					}
@@ -134,9 +158,11 @@ tttApp.controller('tttController', function($scope,$firebase){
 					for (var q = 0; q<$scope.winningCombinations.length;q++){
 						if(($scope.playerMoves[1].moveRecord.indexOf($scope.winningCombinations[q][0])!=-1)&&($scope.playerMoves[1].moveRecord.indexOf($scope.winningCombinations[q][1])!=-1)&&($scope.playerMoves[1].moveRecord.indexOf($scope.winningCombinations[q][2])!=-1)){
 							console.log('o wins');
-							$scope.someoneWon=true;
-							//***TO DO: WILL NEED TO PUT A $SAVE HERE TO PUSH someoneWon TO FIREBASE. DO THIS LATER**
-							$scope.winningPlayer='shellfish';
+							// $scope.someoneWon=true;
+			 				$scope.someoneWon[0].winnerFlag=true;
+			 				// $scope.winningPlayer='shellfish';
+							$scope.someoneWon[0].winningPlayer='shellfish';
+							
 						}
 
 					}
