@@ -16,13 +16,15 @@ tttApp.controller('tttController', function($scope,$firebase){
 	//download the data into an array
 	$scope.counter=counterSync.$asArray();
 
-	//Set up the array of x moves and y moves in Firebase 
+	//Set up the array of x moves and o moves in Firebase 
 	//x moves is the first record under playerMoves
 	//0 moves is the second record under playerMoves
 	var playerMovesRef = new Firebase('https://wendytictactoe.firebaseio.com/playerMoves');
 	var playerMovesSync = $firebase(playerMovesRef);
 	$scope.playerMoves = playerMovesSync.$asArray();
 
+	//Will either create two playerMoves records if it doesn't exist in database
+	//If records do exist in Firebase, will reinitialize them
 	$scope.playerMoves.$loaded(function(){
 		console.log('went into player moves. Length is:')
 		console.log($scope.playerMoves.length);
@@ -70,36 +72,75 @@ tttApp.controller('tttController', function($scope,$firebase){
 		}
 	});
 
+	//** Setting local variables
+	$scope.winningCombinations = [['1','2','3'],['4','5','6'],['7','8','9'],['1','4','7'],['2','5','8'],['3','6','9'],['1','5','9'],['3','5','7']];
+
+
+	//logic for when a user makes a move
 	$scope.makeMove=function(idx){
-		console.log('Square number clicked(index): '+idx)
-		console.log('Current move number = ' + $scope.counter[0].numMoves);
-		console.log('Value in current box clicked: '+$scope.board[idx].playerMove);
+		// console.log('Square number clicked(index): '+idx)
+		// console.log('Current move number = ' + $scope.counter[0].numMoves);
+		// console.log('Value in current box clicked: '+$scope.board[idx].playerMove);
 		//only allows move if board piece not already taken
 		if (($scope.board[idx].playerMove !='x') && ($scope.board[idx].playerMove!='o')){
-			console.log('Allowing player to move because current board position is empty');
+			// console.log('Allowing player to move because current board position is empty');
 			if (($scope.counter[0].numMoves)%2 == 0){
 				$scope.board[idx].playerMove='x'; //updating value in board
 				$scope.board.$save($scope.board[idx]); //saving board
 
-				console.log('Player x move record array is: '+$scope.playerMoves[0].moveRecord);
+				// console.log('Player x move record array is: '+$scope.playerMoves[0].moveRecord);
 
 				//saves the index of the x player's move to firebase
-				$scope.playerMoves[0].moveRecord.push((idx.toString()));
+				$scope.playerMoves[0].moveRecord.push(((idx+1).toString()));
 				$scope.playerMoves.$save(0);
 
 			} else {
 				$scope.board[idx].playerMove='o';
 				$scope.board.$save($scope.board[idx]);
 
-				console.log('Player o move record array is: '+$scope.playerMoves[1].moveRecord);
+				// console.log('Player o move record array is: '+$scope.playerMoves[1].moveRecord);
 				//saves the index of the x player's move to firebase
-				$scope.playerMoves[1].moveRecord.push((idx.toString()));
+				$scope.playerMoves[1].moveRecord.push(((idx+1).toString()));
 				$scope.playerMoves.$save(1);
 			}
-			$scope.counter[0].numMoves++;
-			$scope.counter.$save(0); //saves first element in counter
+
+			//*****************************
+			//*** WIN LOGIC STARTS HERE ***
+			//*****************************
+			//checks for a winner if the number of moves taken is great than 5.
+			//The number is 4 in here because I started with the num moves =0 for the first player
+			if ($scope.counter[0].numMoves >=4){ 						//check if x is winner
+				console.log('Went into the search for a winner if statement.')
+				if ($scope.counter[0].numMoves%2 == 0){
+					console.log('went in to check if x is a winner');
+					console.log('number of winning combinations to check agains: '+$scope.winningCombinations.length);
+					console.log('Array of moves from player X: ' + $scope.playerMoves[0].moveRecord);
+					//Checks win conditions against current player's moves up until now
+					for (var i = 0; i<$scope.winningCombinations.length;i++){
+						if(($scope.playerMoves[0].moveRecord.indexOf($scope.winningCombinations[i][0])!=-1)&&($scope.playerMoves[0].moveRecord.indexOf($scope.winningCombinations[i][1])!=-1)&&($scope.playerMoves[0].moveRecord.indexOf($scope.winningCombinations[i][2])!=-1)){
+							console.log('x wins');
+							$scope.someoneWon=true;
+							$scope.winningPlayer='starfish';
+						}
+
+					}
+
+				}else{													//check if o is winner
+					console.log('went in to check if o is a winner');
+
+				}
+
+			}
+			//*****************************
+			//**** WIN LOGIC ENDS HERE ****
+			//*****************************
+
+
+			$scope.counter[0].numMoves++; //increments counter locally
+			$scope.counter.$save(0); //saves/pushes updates to counter to firebase
 			//console.log('Counter incremented in makeMove function. numMoves counter = ' + $scope.counter[0].numMoves);
-		}
+		
+		}//End section that allows move, only if current position not taken
 	}
 
 
