@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Welcome to Tic Tac Toe!</title>
     <link rel="stylesheet" href="css/style-angular.css">
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
 
@@ -15,6 +15,9 @@
     <script src="js/ttt-logic.js"></script>
 </head>
 <body ng-app='tttApp' ng-controller='tttController'>
+	<header> 
+		<h1 class='animated zoomInLeft'>Welcome to Tic-Tac-Toe!</h1>
+	</header>
 	<div id="container">
 		<!-- Creates board -->
 		<div ng-repeat="gamePiece in board track by $index"

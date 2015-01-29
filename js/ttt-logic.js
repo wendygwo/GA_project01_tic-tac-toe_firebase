@@ -113,13 +113,14 @@ tttApp.controller('tttController', function($scope,$firebase){
 				console.log('Went into the search for a winner if statement.')
 				if ($scope.counter[0].numMoves%2 == 0){
 					console.log('went in to check if x is a winner');
-					console.log('number of winning combinations to check agains: '+$scope.winningCombinations.length);
+					
 					console.log('Array of moves from player X: ' + $scope.playerMoves[0].moveRecord);
 					//Checks win conditions against current player's moves up until now
 					for (var i = 0; i<$scope.winningCombinations.length;i++){
 						if(($scope.playerMoves[0].moveRecord.indexOf($scope.winningCombinations[i][0])!=-1)&&($scope.playerMoves[0].moveRecord.indexOf($scope.winningCombinations[i][1])!=-1)&&($scope.playerMoves[0].moveRecord.indexOf($scope.winningCombinations[i][2])!=-1)){
 							console.log('x wins');
 							$scope.someoneWon=true;
+							//***TO DO: WILL NEED TO PUT A $SAVE HERE TO PUSH someoneWon TO FIREBASE. DO THIS LATER**
 							$scope.winningPlayer='starfish';
 						}
 
@@ -127,6 +128,18 @@ tttApp.controller('tttController', function($scope,$firebase){
 
 				}else{													//check if o is winner
 					console.log('went in to check if o is a winner');
+					
+					console.log('Array of moves from player O: ' + $scope.playerMoves[1].moveRecord);
+					//Checks win conditions against current player's moves up until now
+					for (var q = 0; q<$scope.winningCombinations.length;q++){
+						if(($scope.playerMoves[1].moveRecord.indexOf($scope.winningCombinations[q][0])!=-1)&&($scope.playerMoves[1].moveRecord.indexOf($scope.winningCombinations[q][1])!=-1)&&($scope.playerMoves[1].moveRecord.indexOf($scope.winningCombinations[q][2])!=-1)){
+							console.log('o wins');
+							$scope.someoneWon=true;
+							//***TO DO: WILL NEED TO PUT A $SAVE HERE TO PUSH someoneWon TO FIREBASE. DO THIS LATER**
+							$scope.winningPlayer='shellfish';
+						}
+
+					}
 
 				}
 
