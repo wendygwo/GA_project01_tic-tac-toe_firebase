@@ -27,22 +27,17 @@ tttApp.controller('tttController', function($scope,$firebase){
 		console.log('went into player moves. Length is:')
 		console.log($scope.playerMoves.length);
 		if ($scope.playerMoves.length==0){
-			$scope.playerMoves.$add({moveRecord: ['-1']});
-			$scope.playerMoves.$add({moveRecord: ['-2']});
+			$scope.playerMoves.$add({moveRecord: ['-1']}); //initializing x move array with a number. Seem to have problems adding an empty array
+			$scope.playerMoves.$add({moveRecord: ['-2']}); //initializing o move array with a number. Seem to have problems adding an empty array
 		}
 		else {
-			$scope.playerMoves[0].moveRecord=['-1'];
-			$scope.playerMoves[1].moveRecord=['-2'];
-			$scope.playerMoves.$save(0);
-			$scope.playerMoves.$save(1);
+			$scope.playerMoves[0].moveRecord=['-1']; //resets x move array
+			$scope.playerMoves[1].moveRecord=['-2']; //resets o move array
+			$scope.playerMoves.$save(0); //saves/updates first record - x moves
+			$scope.playerMoves.$save(1);//saves/updates second record - o moves
 
 		}
 	});
-
-
-	// });
-	// $scope.xMoves=[];
-	// $scope.oMoves=[];
 	
 	//The code below only executes after $scope.board is downloaded
 	//Will create board if it doesn't already exist.
@@ -83,11 +78,23 @@ tttApp.controller('tttController', function($scope,$firebase){
 		if (($scope.board[idx].playerMove !='x') && ($scope.board[idx].playerMove!='o')){
 			console.log('Allowing player to move because current board position is empty');
 			if (($scope.counter[0].numMoves)%2 == 0){
-				$scope.board[idx].playerMove='x';
-				$scope.board.$save($scope.board[idx]);
+				$scope.board[idx].playerMove='x'; //updating value in board
+				$scope.board.$save($scope.board[idx]); //saving board
+
+				console.log('Player x move record array is: '+$scope.playerMoves[0].moveRecord);
+
+				//saves the index of the x player's move to firebase
+				$scope.playerMoves[0].moveRecord.push((idx.toString()));
+				$scope.playerMoves.$save(0);
+
 			} else {
 				$scope.board[idx].playerMove='o';
 				$scope.board.$save($scope.board[idx]);
+
+				console.log('Player o move record array is: '+$scope.playerMoves[1].moveRecord);
+				//saves the index of the x player's move to firebase
+				$scope.playerMoves[1].moveRecord.push((idx.toString()));
+				$scope.playerMoves.$save(1);
 			}
 			$scope.counter[0].numMoves++;
 			$scope.counter.$save(0); //saves first element in counter
