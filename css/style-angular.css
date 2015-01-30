@@ -3,12 +3,13 @@ body{
 	background-size: cover;
 	font-family: arial;
 }
-header{
+h1{
 	text-align: center;
+	color: #232311;
 }
 .container{
-	width: 320px;
-	height: 320px;
+	width: 350px;
+	height: 350px;
 	/*background-color: black;*/
 	overflow: none;
 	margin: 0 auto;
@@ -16,11 +17,12 @@ header{
 .square{
 	width:100px;
 	height: 100px;
-	/*background-image: url('../images/wood_grain3.jpg');
-	background-size: contain;*/
+	background-image: url('../images/wood_grain3.jpg');
+	background-size: contain;
+	/*background-color: #232311;*/
 	float: left; /*Don't delete this! Keeps the squares from moving around*/
-
-	border: 1px solid black;
+	margin:5px;
+	border: 1px solid #232311;
 	color: purple;
 	text-align: center;
 	border-radius: 20%;
