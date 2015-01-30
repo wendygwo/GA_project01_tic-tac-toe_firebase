@@ -195,6 +195,28 @@ tttApp.controller('tttController', function($scope,$firebase){
 		
 		}//End section that allows move, only if current position not taken
 	}
+	
+	$scope.newGame=function(){
+			$scope.someoneWon[0].winnerFlag=false;
+			$scope.someoneWon[1].winningPlayer='';
+			$scope.someoneWon[2].catsGameFlag=false;
+			$scope.someoneWon.$save(0);
+			$scope.someoneWon.$save(1);
+			$scope.someoneWon.$save(2);
 
+			$scope.playerMoves[0].moveRecord=['-1']; //resets x move array
+			$scope.playerMoves[1].moveRecord=['-2']; //resets o move array
+			$scope.playerMoves.$save(0); //saves/updates first record - x moves
+			$scope.playerMoves.$save(1);//saves/updates second record - o moves
+
+			for (var i = 0; i<9; i++){
+				$scope.board[i].playerMove='';
+				$scope.board.$save(i);
+			}
+
+			
+			$scope.counter[0].numMoves=0;
+			$scope.counter.$save(0);
+	}//End new game
 
 });

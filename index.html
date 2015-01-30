@@ -20,7 +20,7 @@
 	<header> 
 			<h1 class='animated zoomInLeft'>Welcome to Tic-Tac-Toe!</h1>
 	</header>
-	
+
 	<div class="container">
 		
 
@@ -40,6 +40,10 @@
 			><!-- ng-bind='gamePiece.playerMove' -->
 		</div> 
 		<!-- ^End div that creates board -->
+
+		<div id='playAgain'><input class='playAgainImage' class='animated bounce' type='image' src='images/sandcastle.png' value='Play again' ng-show='someoneWon[0].winnerFlag' ng-click='newGame()'></div>
+		<div id='playAgain'><input class='playAgainImage' class='animated bounce' type='image' src='images/sandcastle.png' value='Play again' ng-show='someoneWon[2].catsGameFlag' ng-click='newGame()'></div>
+
 	<div id="container">
 
 </body>

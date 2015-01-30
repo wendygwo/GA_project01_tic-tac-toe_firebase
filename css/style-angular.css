@@ -67,7 +67,7 @@ h1{
 }
 
 /*Styling for image that shows play again button */
-#playAgainImage{
+.playAgainImage{
 	margin: 0 auto;
 	width: 200px;
 }
