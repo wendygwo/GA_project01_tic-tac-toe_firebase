@@ -35,10 +35,14 @@ tttApp.controller('tttController', function($scope,$firebase){
 		if ($scope.someoneWon.length==0){
 			$scope.someoneWon.$add({winnerFlag: false});
 			$scope.someoneWon.$add({winningPlayer: ''});
+			$scope.someoneWon.$add({catsGameFlag: false});
 		} else{
 			$scope.someoneWon[0].winnerFlag=false;
-			$scope.someoneWon[0].winningPlayer='';
+			$scope.someoneWon[1].winningPlayer='';
+			$scope.someoneWon[2].catsGameFlag=false;
 			$scope.someoneWon.$save(0);
+			$scope.someoneWon.$save(1);
+			$scope.someoneWon.$save(2);
 		}
 
 	});
@@ -101,8 +105,8 @@ tttApp.controller('tttController', function($scope,$firebase){
 		// console.log('Square number clicked(index): '+idx)
 		// console.log('Current move number = ' + $scope.counter[0].numMoves);
 		// console.log('Value in current box clicked: '+$scope.board[idx].playerMove);
-		//only allows move if board piece not already taken
-		if (($scope.board[idx].playerMove !='x') && ($scope.board[idx].playerMove!='o')){
+		//only allows move if board piece not already taken and if no one has won and it's not a cat's game
+		if (($scope.board[idx].playerMove !='x') && ($scope.board[idx].playerMove!='o') &&(!$scope.someoneWon[0].winnerFlag)&&(!$scope.someoneWon[2].catsGameFlag)){
 			// console.log('Allowing player to move because current board position is empty');
 			if (($scope.counter[0].numMoves)%2 == 0){
 				$scope.board[idx].playerMove='x'; //updating value in board
@@ -144,8 +148,9 @@ tttApp.controller('tttController', function($scope,$firebase){
 					//		$scope.someoneWon=true;
 			 				$scope.someoneWon[0].winnerFlag=true;
 					//		$scope.winningPlayer='starfish';
-							$scope.someoneWon[0].winningPlayer='starfish';
+							$scope.someoneWon[1].winningPlayer='starfish';
 						 	$scope.someoneWon.$save(0);
+						 	$scope.someoneWon.$save(1);
 						}
 
 					}
@@ -161,15 +166,24 @@ tttApp.controller('tttController', function($scope,$firebase){
 							// $scope.someoneWon=true;
 			 				$scope.someoneWon[0].winnerFlag=true;
 			 				// $scope.winningPlayer='shellfish';
-							$scope.someoneWon[0].winningPlayer='shellfish';
-							
+							$scope.someoneWon[1].winningPlayer='shellfish';
+							$scope.someoneWon.$save(0);
+							$scope.someoneWon.$save(1);
 						}
 
 					}
 
+				}//End checking if x or 0 is a winner here
+
+				//Start Cat's game logic here
+				if (($scope.counter[0].numMoves==8)&&($scope.someoneWon[0].winnerFlag==false)){
+					console.log('Cats game');
+					$scope.someoneWon[2].catsGameFlag=true;
+					$scope.someoneWon.$save(2);
 				}
 
-			}
+
+			}//End checking for winner here
 			//*****************************
 			//**** WIN LOGIC ENDS HERE ****
 			//*****************************

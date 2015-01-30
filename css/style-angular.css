@@ -6,7 +6,7 @@ body{
 header{
 	text-align: center;
 }
-#container{
+.container{
 	width: 320px;
 	height: 320px;
 	/*background-color: black;*/
@@ -32,14 +32,14 @@ header{
 	border:0px;
 }
 .xSelected{
-/*	background-image: url('../images/starfish1.png');
+	background-image: url('../images/starfish1.png');
 	background-size: contain;
-*/}
+}
 .oSelected{
-/*	background-image: url('../images/seashell1_edited.png');
+	background-image: url('../images/seashell1_edited.png');
 	background-size: contain;
-*/}
-#winnerIdentity{
+}
+.winnerIdentity{
 	color: white;
 	margin: 0px auto;
 	text-align: center;
@@ -49,7 +49,7 @@ header{
 	background-color: #E9A656;
 	width: 400px;
 }
-#winnerIdentityDiv{
+.winnerIdentityDiv{
 	height: 0px;
 }
 
