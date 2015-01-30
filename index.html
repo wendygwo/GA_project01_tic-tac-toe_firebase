@@ -41,8 +41,15 @@
 		</div> 
 		<!-- ^End div that creates board -->
 
-		<div id='playAgain'><input class='playAgainImage' class='animated bounce' type='image' src='images/sandcastle.png' value='Play again' ng-show='someoneWon[0].winnerFlag' ng-click='newGame()'></div>
-		<div id='playAgain'><input class='playAgainImage' class='animated bounce' type='image' src='images/sandcastle.png' value='Play again' ng-show='someoneWon[2].catsGameFlag' ng-click='newGame()'></div>
+		<!-- Shows which player's turn it is by making player bold and orange -->
+<!-- 		<div id='playerTurn'>
+			<h4>Waiting for next move from:</h4>
+			<p class='currentTurn' id='player1'><img src='images/driftwood2.png' class='driftwood' style='visibility:visible'/>Player 1</p>
+			<p class='notCurrentTurn' id='player2'><img src='images/driftwood2.png' class='driftwood' style='visibility:hidden'/>Player 2</p>
+		</div> -->
+
+
+		<div id='playAgain'><input class='playAgainImage' class='animated bounce' type='image' src='images/sandcastle.png' value='Play again' ng-show='someoneWon[0].winnerFlag ||someoneWon[2].catsGameFlag' ng-click='newGame()'></div>
 
 	<div id="container">
 

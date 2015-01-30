@@ -1,6 +1,7 @@
 body{
 	background-image: url('../images/WaterSandBackground.jpg');
-	background-size: cover;
+	/*background-repeat:no-repeat;*/
+    /*background-size:100% 100%;*/
 	font-family: arial;
 }
 h1{
