@@ -41,19 +41,18 @@
 		</div>
 		<!-- ^End div that creates board -->
 
-		<br>
-		<br>
-		<!-- Div to ask first person to click -->
-		<div ng-show='counter[0].numMoves==0' class='animated rubberBand centeredText'>
-			<h2>Make your move!<h2>
-		</div>
 
-		<div ng-show='counter[0].numMoves!=0'>
+		<!-- Div to ask first person to click -->
+		<!-- <div ng-show='counter[0].numMoves==0' class='animated rubberBand centeredText'>
+			<h2>Make your move!<h2>
+		</div> -->
+
+		<!-- <div ng-show='counter[0].numMoves!=0'>
 			<h2 ng-show='playerMoves[2].player1Flag'> You are the starfish</h2>
 		</div>
 		<div ng-show='counter[0].numMoves!=0'>
 			<h2 ng-show='!playerMoves[2].player1Flag'> You are the shellfish</h2>
-		</div>
+		</div> -->
 
 		<!-- Shows which player's turn it is by making player bold and orange -->
 		<div id='playerTurn' ng-hide='counter[0].numMoves==0' >

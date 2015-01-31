@@ -44,8 +44,8 @@ tttApp.controller('tttController', function($scope,$firebase){
 
 	//Will either create or initialize the someoneWon flag
 	$scope.someoneWon.$loaded(function(){
-		console.log('went into someoneWon initialization. Length is: ');
-		console.log($scope.someoneWon.length);
+		// console.log('went into someoneWon initialization. Length is: ');
+		// console.log($scope.someoneWon.length);
 		if ($scope.someoneWon.length==0){
 			$scope.someoneWon.$add({winnerFlag: false});
 			$scope.someoneWon.$add({winningPlayer: ''});
@@ -133,7 +133,7 @@ tttApp.controller('tttController', function($scope,$firebase){
 
 	//logic for when a user makes a move
 	$scope.makeMove=function(idx){
-		// console.log('Square number clicked(index): '+idx)
+		console.log('Square number clicked(index): '+idx)
 		// console.log('Current move number = ' + $scope.counter[0].numMoves);
 		// console.log('Value in current box clicked: '+$scope.board[idx].playerMove);
 
@@ -274,6 +274,11 @@ tttApp.controller('tttController', function($scope,$firebase){
 
 			$scope.counter[0].numMoves=0;
 			$scope.counter.$save(0);
+
+			$scope.playerMoves[2].player1Flag=true; //resets player 1 flag
+			$scope.playerMoves.$save(2);
+			$scope.playerMoves[2].player1Flag=false; //resets player 1 flag
+			$scope.playerMoves.$save(2);
 	};//End new game
 
 });
