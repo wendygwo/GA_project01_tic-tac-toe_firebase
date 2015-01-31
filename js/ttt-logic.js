@@ -123,7 +123,8 @@ tttApp.controller('tttController', function($scope,$firebase){
 	//*************    variables                 *************
 	//********************************************************
 	$scope.winningCombinations = [['1','2','3'],['4','5','6'],['7','8','9'],['1','4','7'],['2','5','8'],['3','6','9'],['1','5','9'],['3','5','7']];
-
+	$scope.xTurnFlag = true;
+	$scope.oTurnFlag = false;
 
 	//********************************************************
 	//*************    END Setting local         *************
@@ -136,8 +137,7 @@ tttApp.controller('tttController', function($scope,$firebase){
 		// console.log('Current move number = ' + $scope.counter[0].numMoves);
 		// console.log('Value in current box clicked: '+$scope.board[idx].playerMove);
 
-		//ADD LOGIC HERE*******
-		//*******if turn number == 0, set player 1 flag to true, LOCALLY ONLY
+		//If turn number == 0, set player 1 flag to true, LOCALLY ONLY, to keep both players from moving separately
 		if ($scope.counter[0].numMoves==0){
 			$scope.playerMoves[2].player1Flag=true; //only changing the variable locally. Not pushing back up to firebase because I want there to be different flags for player 1 and player 2
 			console.log('Set player1Flag to true: ' + $scope.playerMoves[2].player1Flag);
@@ -165,6 +165,10 @@ tttApp.controller('tttController', function($scope,$firebase){
 				$scope.counter.$save(0); //saves/pushes updates to counter to firebase
 				console.log('Counter incremented in makeMove function. x move. numMoves counter = ' + $scope.counter[0].numMoves);
 
+				//set these variables for the next turn, so that the turn can show up for o going next
+				$scope.xTurnFlag = false;
+				$scope.oTurnFlag = true;
+
 			} else if((($scope.counter[0].numMoves)%2 == 1)&& (!$scope.playerMoves[2].player1Flag)){
 				$scope.board[idx].playerMove='o';
 				$scope.board.$save($scope.board[idx]);
@@ -181,6 +185,10 @@ tttApp.controller('tttController', function($scope,$firebase){
 				$scope.counter[0].numMoves++; //increments counter locally
 				$scope.counter.$save(0); //saves/pushes updates to counter to firebase
 				console.log('Counter incremented in makeMove function. o move. numMoves counter = ' + $scope.counter[0].numMoves);
+
+				//set these variables for the next turn, so that the turn can show up for o going next
+				$scope.xTurnFlag = true;
+				$scope.oTurnFlag = false;
 			}
 
 		}//End section that allows move, only if current position not taken

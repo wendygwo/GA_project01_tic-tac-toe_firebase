@@ -17,12 +17,12 @@
 </head>
 <body ng-app='tttApp' ng-controller='tttController'>
 
-	<header> 
+	<header>
 			<h1 class='animated zoomInLeft'>Welcome to Tic-Tac-Toe!</h1>
 	</header>
 
 	<div class="container">
-		
+
 
 	<!-- Shows the winner at the end of the game -->
 		<div class='winnerIdentityDiv' ng-show='someoneWon[0].winnerFlag'>
@@ -31,25 +31,41 @@
 
 		<div class='winnerIdentityDiv' ng-show='someoneWon[2].catsGameFlag'>
 			<h1 class='winnerIdentity'>Cat's game. Better luck next time!</h1>
-		</div> 
+		</div>
 
 		<!-- Creates board -->
 		<div ng-repeat="gamePiece in board track by $index"
 			ng-class='{square:true, xSelected:gamePiece.playerMove=="x", oSelected:gamePiece.playerMove=="o"}'
 			ng-click='makeMove($index)'
 			><!-- ng-bind='gamePiece.playerMove' -->
-		</div> 
+		</div>
 		<!-- ^End div that creates board -->
 
+		<br>
+		<br>
+		<!-- Div to ask first person to click -->
+		<div ng-show='counter[0].numMoves==0' class='animated rubberBand centeredText'>
+			<h2>Make your move!<h2>
+		</div>
+
+		<div ng-show='counter[0].numMoves!=0'>
+			<h2 ng-show='playerMoves[2].player1Flag'> You are the starfish</h2>
+		</div>
+		<div ng-show='counter[0].numMoves!=0'>
+			<h2 ng-show='!playerMoves[2].player1Flag'> You are the shellfish</h2>
+		</div>
+
 		<!-- Shows which player's turn it is by making player bold and orange -->
-<!-- 		<div id='playerTurn'>
-			<h4>Waiting for next move from:</h4>
-			<p class='currentTurn' id='player1'><img src='images/driftwood2.png' class='driftwood' style='visibility:visible'/>Player 1</p>
-			<p class='notCurrentTurn' id='player2'><img src='images/driftwood2.png' class='driftwood' style='visibility:hidden'/>Player 2</p>
-		</div> -->
+		<div id='playerTurn' ng-hide='counter[0].numMoves==0' >
+			<!-- <h4 ng-show=>You are the starfish!</h4>
+			<h4 ng-show=>You are the seashell!</h4> -->
+			<h4>Waiting for move from:</h4>
+			<p ng-show='counter[0].numMoves%2==0' id='player1'><img src='images/driftwood2.png' class='driftwood'/>Starfish</p>
+			<p ng-show='counter[0].numMoves%2!=0' id='player2'><img src='images/driftwood2.png' class='driftwood'/>Seashell</p>
+		</div>
 
 
-		<div id='playAgain'><input class='playAgainImage' class='animated bounce' type='image' src='images/sandcastle.png' value='Play again' ng-show='someoneWon[0].winnerFlag ||someoneWon[2].catsGameFlag' ng-click='newGame()'></div>
+		<div class='playAgain'><input class='playAgainImage' class='animated bounce' type='image' src='images/sandcastle.png' value='Play again' ng-show='someoneWon[0].winnerFlag ||someoneWon[2].catsGameFlag' ng-click='newGame()'></div>
 
 	<div id="container">
 
