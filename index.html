@@ -33,6 +33,12 @@
 			<h1 class='winnerIdentity'>Cat's game. Better luck next time!</h1>
 		</div>
 
+
+		<!-- Div to ask first person to click -->
+		<div ng-show='counter[0].numMoves==0 && counter[3].totalGames==0'>
+			<h2 >Make the first move to be the starfish!</h2>
+		</div>
+
 		<!-- Creates board -->
 		<div ng-repeat="gamePiece in board track by $index"
 			ng-class='{square:true, xSelected:gamePiece.playerMove=="x", oSelected:gamePiece.playerMove=="o"}'
@@ -42,31 +48,61 @@
 		<!-- ^End div that creates board -->
 
 
-		<!-- Div to ask first person to click -->
-		<!-- <div ng-show='counter[0].numMoves==0' class='animated rubberBand centeredText'>
-			<h2>Make your move!<h2>
-		</div> -->
+		<div ng-show='!someoneWon[0].winnerFlag && !someoneWon[2].catsGameFlag'>
+			<!-- Shows "It's your turn" message when it's the current player's turn -->
+			<div ng-show='counter[0].numMoves!=0 && playerMoves[2].player1Flag && counter[0].numMoves%2==0'>
+				<h2>It's your turn starfish!</h2>
+			</div>
+			<div ng-show='counter[0].numMoves!=0 && !playerMoves[2].player1Flag && counter[0].numMoves%2!=0'>
+				<h2 >It's your turn shellfish!</h2>
+			</div>
 
-		<!-- <div ng-show='counter[0].numMoves!=0'>
-			<h2 ng-show='playerMoves[2].player1Flag'> You are the starfish</h2>
+			<!-- Shows which player's turn it is -->
+		
+			<div id='playerTurn' ng-hide='counter[0].numMoves==0'>
+				<div ng-show='counter[0].numMoves%2!=0 && playerMoves[2].player1Flag' >
+					<h4>Waiting for move from:</h4>
+					<p id='player1'><img src='images/driftwood2.png' class='driftwood'/>Seashell</p>
+				</div>
+			</div>
+			<div id='playerTurn' ng-hide='counter[0].numMoves==0'>
+				<div ng-show='counter[0].numMoves%2==0 && !playerMoves[2].player1Flag'>
+					<h4>Waiting for move from:</h4>
+					<p id='player2'><img src='images/driftwood2.png' class='driftwood'/>Starfish</p>
+				</div>
+					
+			</div>
 		</div>
-		<div ng-show='counter[0].numMoves!=0'>
-			<h2 ng-show='!playerMoves[2].player1Flag'> You are the shellfish</h2>
-		</div> -->
-
-		<!-- Shows which player's turn it is by making player bold and orange -->
-		<div id='playerTurn' ng-hide='counter[0].numMoves==0' >
-			<!-- <h4 ng-show=>You are the starfish!</h4>
-			<h4 ng-show=>You are the seashell!</h4> -->
-			<h4>Waiting for move from:</h4>
-			<p ng-show='counter[0].numMoves%2==0' id='player1'><img src='images/driftwood2.png' class='driftwood'/>Starfish</p>
-			<p ng-show='counter[0].numMoves%2!=0' id='player2'><img src='images/driftwood2.png' class='driftwood'/>Seashell</p>
+		
+		<!-- Show game stats after each game -->
+		<div ng-show='someoneWon[0].winnerFlag ||someoneWon[2].catsGameFlag'>
+			<table style="width:100%">
+				<tr>
+					<th colspan='2'>Game statistics</th>
+				</tr>
+				<tr>
+					<th>Starfish wins</th>
+					<td ng-bind='counter[1].xWins'></td> 
+				</tr>
+				<tr>
+					<th>Shellfish wins</th>
+					<td ng-bind='counter[2].oWins'></td> 
+				</tr>
+				<tr>
+					<th>Tie games</th>
+					<td ng-bind='counter[4].catsGames'></td> 
+				</tr>
+				<tr>
+					<th>Total games</th>
+					<td ng-bind='counter[3].totalGames'></td> 
+				</tr>
+			</table>
 		</div>
 
-
+		<!-- Shows play again button -->
 		<div class='playAgain'><input class='playAgainImage' class='animated bounce' type='image' src='images/sandcastle.png' value='Play again' ng-show='someoneWon[0].winnerFlag ||someoneWon[2].catsGameFlag' ng-click='newGame()'></div>
 
-	<div id="container">
+	</div>
 
 </body>
 </html>

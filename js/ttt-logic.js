@@ -2,6 +2,14 @@ var tttApp = angular.module('tttApp',['firebase']);
 
 tttApp.controller('tttController', function($scope,$firebase){
 
+	// window.addEventListener('DOMContentLoaded', function(){
+	// 	console.log('Page loaded');
+	// });
+
+	// window.addEventListener('beforeunload', function(){
+	// 	console.log('are you sure?');
+	// });
+
 	//********************************************************
 	//****************  START Firebase setup  ****************
 	//********************************************************
@@ -35,7 +43,6 @@ tttApp.controller('tttController', function($scope,$firebase){
 	//********************************************************
 	//****************   END Firebase setup   ****************
 	//********************************************************
-
 
 	//********************************************************
 	//*************  START game initialization   *************
@@ -75,9 +82,13 @@ tttApp.controller('tttController', function($scope,$firebase){
 		else {
 			$scope.playerMoves[0].moveRecord=['-1']; //resets x move array
 			$scope.playerMoves[1].moveRecord=['-2']; //resets o move array
-			$scope.playerMoves[2].player1Flag=false; //resets player 1 flag
 			$scope.playerMoves.$save(0); //saves/updates first record - x moves
 			$scope.playerMoves.$save(1);//saves/updates second record - o moves
+
+
+			$scope.playerMoves[2].player1Flag=true; //resets player 1 flag
+			$scope.playerMoves.$save(2);
+			$scope.playerMoves[2].player1Flag=false; //resets player 1 flag
 			$scope.playerMoves.$save(2);//flags whether this person is player 1 or not
 		}
 	});
@@ -105,11 +116,23 @@ tttApp.controller('tttController', function($scope,$firebase){
 	$scope.counter.$loaded(function(){
 		// console.log('Counter length: ' +$scope.counter.length);
 		if ($scope.counter.length==0){ 			//creates counter variable if it doesn't already exist
-			$scope.counter.$add({numMoves: 0});
+			$scope.counter.$add({numMoves: 0}); //Counters number of moves made
+			$scope.counter.$add({xWins: 0});
+			$scope.counter.$add({oWins: 0});
+			$scope.counter.$add({totalGames: 0});
+			$scope.counter.$add({catsGames: 0});
 			// console.log('Went into if scope counter length = 0.');
 		}else{ 									//updates counter variable if it already exists in database
 			$scope.counter[0].numMoves=0;
+			$scope.counter[1].xWins=0;
+			$scope.counter[2].oWins=0;
+			$scope.counter[3].totalGames=0;
+			$scope.counter[4].catsGames=0;
 			$scope.counter.$save(0); //saves first element in counter
+			$scope.counter.$save(1); //saves number of x wins
+			$scope.counter.$save(2); //saves number of o wins
+			$scope.counter.$save(3); //saves number of total games played
+			$scope.counter.$save(4); //saves number of total games played
 		}
 	});
 
@@ -137,8 +160,9 @@ tttApp.controller('tttController', function($scope,$firebase){
 		// console.log('Current move number = ' + $scope.counter[0].numMoves);
 		// console.log('Value in current box clicked: '+$scope.board[idx].playerMove);
 
-		//If turn number == 0, set player 1 flag to true, LOCALLY ONLY, to keep both players from moving separately
-		if ($scope.counter[0].numMoves==0){
+		//If turn number == 0 and it's the first game in the current session,
+		//set player 1 flag to true, LOCALLY ONLY, to keep both players from moving separately
+		if (($scope.counter[0].numMoves==0) && ($scope.counter[3].totalGames==0)){
 			$scope.playerMoves[2].player1Flag=true; //only changing the variable locally. Not pushing back up to firebase because I want there to be different flags for player 1 and player 2
 			console.log('Set player1Flag to true: ' + $scope.playerMoves[2].player1Flag);
 		}
@@ -216,6 +240,12 @@ tttApp.controller('tttController', function($scope,$firebase){
 						$scope.someoneWon[1].winningPlayer='starfish';
 						$scope.someoneWon.$save(0);
 						$scope.someoneWon.$save(1);
+
+						//Adds to number of x wins, and total number of games counter
+						$scope.counter[1].xWins++;
+						$scope.counter.$save(1);
+						$scope.counter[3].totalGames++;
+						$scope.counter.$save(3);
 					}
 
 				}
@@ -234,6 +264,12 @@ tttApp.controller('tttController', function($scope,$firebase){
 						$scope.someoneWon[1].winningPlayer='shellfish';
 						$scope.someoneWon.$save(0);
 						$scope.someoneWon.$save(1);
+
+						//Adds to number of o wins, and total number of games counter
+						$scope.counter[2].oWins++;
+						$scope.counter.$save(2);
+						$scope.counter[3].totalGames++;
+						$scope.counter.$save(3);
 					}
 
 				}
@@ -245,6 +281,13 @@ tttApp.controller('tttController', function($scope,$firebase){
 				console.log('Cats game');
 				$scope.someoneWon[2].catsGameFlag=true;
 				$scope.someoneWon.$save(2);
+
+				//Adds to number of cats games, and total number of games counter
+				$scope.counter[4].catsGames++;
+				$scope.counter.$save(4);
+				$scope.counter[3].totalGames++;
+				$scope.counter.$save(3);
+
 			}
 
 		//*****************************
@@ -275,10 +318,10 @@ tttApp.controller('tttController', function($scope,$firebase){
 			$scope.counter[0].numMoves=0;
 			$scope.counter.$save(0);
 
-			$scope.playerMoves[2].player1Flag=true; //resets player 1 flag
-			$scope.playerMoves.$save(2);
-			$scope.playerMoves[2].player1Flag=false; //resets player 1 flag
-			$scope.playerMoves.$save(2);
+			// $scope.playerMoves[2].player1Flag=true; //resets player 1 flag
+			// $scope.playerMoves.$save(2);
+			// $scope.playerMoves[2].player1Flag=false; //resets player 1 flag
+			// $scope.playerMoves.$save(2);
 	};//End new game
 
 });
